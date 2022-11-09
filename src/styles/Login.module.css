@@ -1,0 +1,71 @@
+
+.background{
+    width: 400px;
+    background-color: rgb(226, 226, 226);
+    margin: 7% 0;
+    box-shadow: 10px 10px 20px rgb(160, 160, 160);
+}
+.background h2 {
+    display: flex;
+    justify-content: center;
+    color: rgb(243, 55, 30);
+    font-size: 35px;
+    margin: 20px;
+    font-style: italic;
+}
+.background form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.input {
+    width: 220px;
+    height: 30px;
+    margin: 10px;
+    padding-left: 5px;
+    border-radius: 5px;
+    border: 2px solid rgb(112, 112, 112);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+input:focus{
+    outline: none;
+}
+
+.btn {
+    width: 100px;
+    height: 30px;
+    background-color: rgb(253, 78, 55);
+    border:none;
+    margin-top: 15px;
+    color: white;
+    border-radius: 3px;
+    font-style: italic;
+    cursor: pointer;
+    transition: 1s;
+    font-weight: bold;
+}
+
+.btn:hover{
+    background-color: rgb(228, 36, 10);
+}
+
+.background p {
+    text-align: center;
+    margin: 20px;
+    color: rgb(2, 2, 2);
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(94, 124, 243);
+}
+a:hover {
+    color: rgba(252, 104, 85);
+}

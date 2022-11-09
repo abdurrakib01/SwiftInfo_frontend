@@ -1,0 +1,36 @@
+.title{
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+.title h2{
+    color: rgb(252, 104, 85);
+    font-size: 1.4rem;
+}
+
+input {
+    height: 2.5em;
+    margin: 0;
+    border-color: rgb(252, 104, 85);
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.button{
+    margin-left: 3px;
+    cursor: pointer;
+    transition: 0.6s;
+}
+.button:hover{
+    background-color:rgba(252, 104, 85, 0.5);;
+}
+
+.search{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+.search_field{
+    width: 30%;
+}
