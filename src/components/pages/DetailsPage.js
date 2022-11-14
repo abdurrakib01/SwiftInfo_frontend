@@ -1,11 +1,13 @@
 import Nav from "../Nav";
 import Footer from "../Footer";
 import BlogDetails from "../BlogDetails";
-export default function DetailsPage(){
+import { useLocation } from "react-router-dom";
+export default function DetailsPage(props){
+    const location = useLocation();
     return(
         <>
         <Nav/>
-        <BlogDetails/>
+        <BlogDetails id={location.state.data.id}/>
         <Footer/>
         </>
     );

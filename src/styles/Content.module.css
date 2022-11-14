@@ -1,7 +1,7 @@
 .content {
     width: 90%;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     padding: 10px;
     margin: 2em auto;
     gap: 40px 30px;
@@ -30,6 +30,13 @@
     padding-left: 10px;
     color: rgba(0, 0, 0, 0.6);
     font-size: 0.9rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+   -webkit-line-clamp: 2;
+           line-clamp: 2; 
+   -webkit-box-orient: vertical;
+
 }
 
 .content_list img {

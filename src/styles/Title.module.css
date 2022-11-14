@@ -20,6 +20,7 @@ input {
     margin-left: 3px;
     cursor: pointer;
     transition: 0.6s;
+    font-size: 14px;
 }
 .button:hover{
     background-color:rgba(252, 104, 85, 0.5);;

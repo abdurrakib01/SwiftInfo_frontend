@@ -44,4 +44,6 @@
     width: 90%;
     margin: 0 auto;
     font-size: 1.3rem;
+    white-space:pre-wrap;
+    margin-bottom: 80px;
 }
