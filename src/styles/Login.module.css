@@ -23,17 +23,27 @@
 
 .input {
     width: 220px;
-    height: 30px;
+    height: 33px;
     margin: 10px;
     padding-left: 5px;
-    border-radius: 5px;
-    border: 2px solid rgb(112, 112, 112);
+    border-radius:0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: 5px 5px 5px rgb(150, 150, 150);
+    border-color: transparent;
+}
+.input:hover{
+    border: 2px solid rgb(97, 19, 243);
     border-top: none;
     border-left: none;
     border-right: none;
 }
-
-input:focus{
+.input:focus{
+    border: 2px solid rgb(97, 19, 243);
+    border-top: none;
+    border-left: none;
+    border-right: none;
     outline: none;
 }
 
@@ -52,7 +62,7 @@ input:focus{
 }
 
 .btn:hover{
-    background-color: rgb(228, 36, 10);
+    background-color: rgb(10, 50, 228);
 }
 
 .background p {
@@ -68,4 +78,18 @@ a {
 }
 a:hover {
     color: rgba(252, 104, 85);
+}
+
+label{
+    display: flex;
+    align-items: center;
+    margin-right: 25%;
+}
+.tc{
+    margin-left: 5px;
+    font-size: 13px;
+}
+
+label:hover{
+    color: red;
 }

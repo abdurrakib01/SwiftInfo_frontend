@@ -8,7 +8,7 @@ export default function Title(){
                 <input className={classes.search_field} type="search" placeholder="search blog here"/>
                 <input className={classes.button} type="submit" value="Search"/>
             </form>
-            </div>
+            </div> 
         </div>
     );
 }

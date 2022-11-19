@@ -4,26 +4,37 @@
     margin-top: 20px;
 }
 .title h2{
-    color: rgb(252, 104, 85);
+    color: rgb(243, 55, 30);
     font-size: 1.4rem;
 }
 
 input {
-    height: 2.5em;
+    height: 2.4em;
     margin: 0;
     border-color: rgb(252, 104, 85);
     padding: 0 10px;
     border-radius: 5px;
 }
 
+input:focus{
+    color: blue;
+    outline: none;
+    border-color: blue;
+}
+
 .button{
     margin-left: 3px;
     cursor: pointer;
-    transition: 0.6s;
+    transition: 0.3s;
     font-size: 14px;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(247, 52, 52);
+    font-style: italic;
+    border: none;
 }
 .button:hover{
-    background-color:rgba(252, 104, 85, 0.5);;
+    background-color:rgba(7, 20, 206, 0.5);;
 }
 
 .search{
