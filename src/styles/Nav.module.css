@@ -26,8 +26,6 @@ nav a:hover{
 }
 
 .menu{
-    width: 200px;
     display: flex;
-    justify-content: space-between;
     margin-right: 65px;
 }

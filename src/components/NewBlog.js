@@ -2,7 +2,6 @@ import classes from "../styles/NewBlog.module.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Image from "./Image";
-import axios from "axios";
 export default function NewBlog(){
     const [content, setContent] = useState({
         title : "",
@@ -58,7 +57,8 @@ export default function NewBlog(){
         <div className={classes.blog_container}>
             <form action="#" onSubmit={handleSubmit}>
                 <Image con={content.con} image={content.imagePreview}/>
-                <input type="file"
+                <input className={classes.file}
+                    type="file"
                     name="image"
                     accept="image/png, image/jpg"
                     onChange={handleImageChange}
@@ -78,7 +78,7 @@ export default function NewBlog(){
                 ></textarea>
                 <input type="submit" className={classes.button} value="Publish"/>
             </form>
-        </div>
+        </div> 
         </>
     );
 }

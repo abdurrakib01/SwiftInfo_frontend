@@ -44,12 +44,18 @@
     margin-bottom: 20px;
 }
 
+.file{
+    width: 20%;
+}
+
 .blog_title{
     width: 98%;
     height: 20px;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px;
     font-size: 1.3rem;
+    margin-top: 10px;
+    border-color: red;
 }
    
 .blog_info{
@@ -60,6 +66,15 @@
     border-radius: 10px;
 }
 
+.blog_title:focus{
+    color: blue;
+    border: 2px solid rgb(97, 19, 243);
+    outline: none;
+}
+.blog_info:focus{
+    border: 2px solid rgb(97, 19, 243);
+    outline: none;
+}
 .button{
     width: 90px;
     height: 35px;
@@ -75,5 +90,5 @@
 }
 
 .button:hover{
-    background-color: rgb(240, 46, 46);
+    background-color: rgb(38, 0, 255);
 }

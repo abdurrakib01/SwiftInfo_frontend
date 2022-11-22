@@ -1,6 +1,14 @@
 import classes from "../styles/Nav.module.css";
 import { Link } from "react-router-dom";
+import Profile from "./Profile";
+import LogReg from "./LogReg";
 export default function Nav(){
+    if(localStorage.getItem('user')){
+        var name = true;
+    }
+    else{
+        name = false;
+    }
     return(
         <nav>
             <div className={classes.logo}>
@@ -8,8 +16,7 @@ export default function Nav(){
             </div>
             <div className={classes.menu}>
                 <Link to="/newblog">New Blog</Link>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Signup</Link>
+                {name? <Profile/> : <LogReg/>}
             </div>
         </nav>
     );

@@ -8,7 +8,8 @@
     font-size: 1.4rem;
 }
 
-input {
+.search_field,
+.button {
     height: 2.4em;
     margin: 0;
     border-color: rgb(252, 104, 85);
@@ -16,7 +17,7 @@ input {
     border-radius: 5px;
 }
 
-input:focus{
+.search_field:focus{
     color: blue;
     outline: none;
     border-color: blue;
@@ -31,10 +32,13 @@ input:focus{
     font-weight: bold;
     background-color: rgb(247, 52, 52);
     font-style: italic;
-    border: none;
+    border: none; 
 }
 .button:hover{
     background-color:rgba(7, 20, 206, 0.5);;
+}
+.button:focus{
+    color: white;
 }
 
 .search{
