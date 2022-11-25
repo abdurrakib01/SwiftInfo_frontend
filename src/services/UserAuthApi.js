@@ -17,8 +17,31 @@ export const UserAuthApi = createApi({
             }
           }
         }
-      })
+      }),
+      loginUser : builder.mutation({
+        query:(user)=>{
+          return {
+            url : 'login/',
+            method : 'POST',
+            body : user,
+            headers: {
+              'Content-type' : 'application/json',
+            }
+          }
+        }
+      }),
+      profile : builder.query({
+        query:(access_token)=>{
+          return {
+            url : 'profile/',
+            method : 'GET',
+            headers: {
+              'authorization' : `Bearer ${access_token}`,
+            }
+          }
+        }
+      }),
   }),
 })
 
-export const { useRegisterUserMutation } = UserAuthApi
+export const { useRegisterUserMutation, useLoginUserMutation, useProfileQuery } = UserAuthApi

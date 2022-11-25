@@ -15,7 +15,7 @@ export default function Contents(){
     }
     useEffect (()=>{
         fetching();
-    });
+    },[0]);
 
     return(
         <div className={classes.content}>

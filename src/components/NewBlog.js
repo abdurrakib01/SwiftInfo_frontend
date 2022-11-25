@@ -29,12 +29,10 @@ export default function NewBlog(){
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        console.log(content.author)
         let form_data = new FormData();
         form_data.append('title', content.title);
         form_data.append('info', content.info);
         form_data.append('image', content.image, content.image.name);
-        form_data.append('author', content.author);
         fetch("http://127.0.0.1:8000", {
             method : "POST",
             body : form_data

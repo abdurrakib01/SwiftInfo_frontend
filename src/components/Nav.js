@@ -2,13 +2,9 @@ import classes from "../styles/Nav.module.css";
 import { Link } from "react-router-dom";
 import Profile from "./Profile";
 import LogReg from "./LogReg";
+import { getToken } from "../services/LocalStorageService";
 export default function Nav(){
-    if(localStorage.getItem('user')){
-        var name = true;
-    }
-    else{
-        name = false;
-    }
+    const {access_token} = getToken()
     return(
         <nav>
             <div className={classes.logo}>
@@ -16,7 +12,7 @@ export default function Nav(){
             </div>
             <div className={classes.menu}>
                 <Link to="/newblog">New Blog</Link>
-                {name? <Profile/> : <LogReg/>}
+                {access_token? <Profile/> : <LogReg/>}
             </div>
         </nav>
     );

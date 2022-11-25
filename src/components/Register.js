@@ -2,6 +2,7 @@ import classes from "../styles/Login.module.css"
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useRegisterUserMutation } from "../services/UserAuthApi";
+import { storeToken } from "../services/LocalStorageService";
 export default function Register(){
     const [user, setUser] = useState({
         user_name : "",
@@ -11,7 +12,7 @@ export default function Register(){
         tc : null
     })
     const [server_error, setServerError] = useState({})
-    const [registerUser, { isLoading }] = useRegisterUserMutation()
+    const [registerUser] = useRegisterUserMutation()
 
     const handleOnchage=(e)=>{
         var value = e.target.value;
@@ -36,7 +37,7 @@ export default function Register(){
             setServerError(res.error.data)
         }
         if(res.data){
-            console.log(res.data)
+            storeToken(res.data.token)
             navigate('/')
         }
     }
@@ -49,11 +50,10 @@ export default function Register(){
             })
         }
     }
+
  
     return(
         <div className={classes.background}>
-        {/* {server_error.user_name ? console.log(server_error.user_name[0]): ""} */}
-        {server_error.non_field_errors ? console.log(server_error.non_field_errors[0]):""}
         <h2>Register Account</h2>
         <form onSubmit={handleSubmit}>
             <input className={classes.input} 
