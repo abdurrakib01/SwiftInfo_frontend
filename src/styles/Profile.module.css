@@ -1,0 +1,25 @@
+.profile{
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+}
+
+.username{
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+    color: white;
+}
+
+.logout{
+    padding: 0;
+    margin: 0;
+    margin-left: 20px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout:hover{
+    color: rgba(252, 104, 85);
+}

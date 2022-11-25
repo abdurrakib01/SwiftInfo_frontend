@@ -1,0 +1,52 @@
+.title{
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+.title h2{
+    color: rgb(243, 55, 30);
+    font-size: 1.4rem;
+}
+
+.search_field,
+.button {
+    height: 2.4em;
+    margin: 0;
+    border-color: rgb(252, 104, 85);
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.search_field:focus{
+    color: blue;
+    outline: none;
+    border-color: blue;
+}
+
+.button{
+    margin-left: 3px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(247, 52, 52);
+    font-style: italic;
+    border: none; 
+}
+.button:hover{
+    background-color:rgba(7, 20, 206, 0.5);;
+}
+.button:focus{
+    color: white;
+}
+
+.search{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+.search_field{
+    width: 30%;
+}
