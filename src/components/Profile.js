@@ -5,6 +5,7 @@ import { getToken, removeToken } from "../services/LocalStorageService";
 import classes from "../styles/Profile.module.css";
 import { useProfileQuery } from "../services/UserAuthApi";
 import { useEffect, useState } from "react";
+import { setUserToken } from "../features/AuthSlice";
 export default function Profile(props){
     const [userData, setUserData] = useState({
         user_name : "",
@@ -28,6 +29,10 @@ export default function Profile(props){
             })
         }
     },[data, isSuccess])
+
+    useEffect(()=>{
+        dispatch(setUserToken({access_token:access_token}))
+    },[access_token, dispatch]) 
     return(
         <div className={classes.profile}>
             <p className={classes.username}>{userData.user_name}</p>

@@ -2,15 +2,15 @@ import classes from "../styles/BlogDetails.module.css";
 import { Link} from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { setUserToken } from "../features/AuthSlice";
+import { useDispatch } from "react-redux";
+import { getToken } from "../services/LocalStorageService";
 
 const api = axios.create({
     baseURL : "http://127.0.0.1:8000/"
 })
 export default function BlogDetails(props){
     const[content, setContent] = useState([]);
-    useEffect(()=>{
-        contentFetching();
-    })
     const contentFetching = ()=>{
         api.get(`/${props.id}`)
         .then(response =>{
@@ -18,9 +18,19 @@ export default function BlogDetails(props){
         });
 
     }
-    console.log(content.author);
-    const date = content.time;
 
+    useEffect(()=>{
+        contentFetching();
+    },[1])
+
+    const dispatch = useDispatch()
+    const {access_token} = getToken()
+    
+    useEffect(()=>{
+        dispatch(setUserToken({access_token:access_token}))
+    },[access_token, dispatch])
+
+    const date = content.time;
     var moment = require('moment');
 
     const formattedDate = moment(date).format('MMMM Do YYYY, h:mm:ss a');

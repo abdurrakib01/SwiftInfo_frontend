@@ -92,3 +92,12 @@
 .button:hover{
     background-color: rgb(38, 0, 255);
 }
+
+
+.wrapper{
+    border: 1px solid grey;
+  }
+  
+  .editor{
+    background-color: lavender;
+  }

@@ -23,6 +23,7 @@ export default function Register(){
         })
     }
     const navigate = useNavigate();
+    
     const handleSubmit=async(e)=>{
         e.preventDefault()
         const user_data = {

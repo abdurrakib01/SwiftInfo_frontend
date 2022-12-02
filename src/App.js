@@ -6,7 +6,6 @@ import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import NewBlogPage from "./components/pages/NewBlogPage";
 import { useSelector } from "react-redux";
-
 function App() {
   const {access_token} = useSelector(state =>state.auth)
   return (
