@@ -11,7 +11,7 @@ nav a {
 nav a:hover{
     color: rgb(252, 104, 85);
 }
-
+/* Input design */
 input {
     height: 2.5em;
     margin: 0;
@@ -19,7 +19,7 @@ input {
     padding: 0 10px;
     border-radius: 5px;
 }
-
+/* Button options */
 .button{
     cursor: pointer;
     transition: 0.6s;
@@ -45,6 +45,7 @@ nav h2{
 nav span{
     color: rgb(252, 104, 85);
 }
+/* Menu bar */
 .menu{
     width: 200px;
     display: flex;
