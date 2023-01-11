@@ -5,11 +5,11 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getToken } from "../services/LocalStorageService";
 import { setUserToken } from "../features/AuthSlice";
-import { filter } from "draft-js/lib/DefaultDraftBlockRenderMap";
 export default function Contents(){
 
     const [contents, setContents] = useState([]);
-    const [query, setQuery] = useState("");
+
+
     var fetching=()=>{
         axios.get('http://127.0.0.1:8000/')
         .then(response =>{
@@ -22,12 +22,10 @@ export default function Contents(){
     
     const dispatch = useDispatch()
     const {access_token} = getToken()
+
     useEffect(()=>{
         dispatch(setUserToken({access_token:access_token}))
     },[access_token, dispatch])
-
-
-    
     return(
         <div>
             <div className={classes.title}>
@@ -38,7 +36,6 @@ export default function Contents(){
                         className={classes.search_field} 
                         type="search" 
                         placeholder="search blog here"
-                        onChange={e=>setQuery(e.target.value)}
                         />
                     <input className={classes.button} type="submit" value="Search"/>
                 </form>

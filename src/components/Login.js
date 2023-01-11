@@ -14,7 +14,7 @@ export default function Login(){
     const [server_error, setServerError] = useState({});
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [loginUser, {isLoading}] = useLoginUserMutation();
+    const [loginUser] = useLoginUserMutation();
     const handleChange=(e)=>{
         var value = e.target.value;
         var name = e.target.name;

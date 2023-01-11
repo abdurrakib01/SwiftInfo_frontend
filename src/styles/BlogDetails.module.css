@@ -1,16 +1,26 @@
+.auth{
+    display: flex;
+    width: 81%;
+    justify-content: space-between;
+}
+
+
 .back{
-    width: 40px;
+    width: max-content;
     background-color: rgb(248, 218, 178);
     margin-top:20px;
     padding-left: 14px;
-    padding-top: 4px;
-    margin-left: 9.3%;
+    padding-right: 14px;
     border-radius: 5px;
     transition: .5s;
-    margin-right: 86.5%;
+    border: none;
+    color: blue;
+    font-size: 15px;
+    font-weight:bold;
 }
 .back:hover{
     background-color: rgb(31, 26, 26);
+    color: rgb(247, 52, 52);
 }
 
 /* *****************
