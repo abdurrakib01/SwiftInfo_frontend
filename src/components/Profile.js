@@ -1,5 +1,5 @@
 import { useDispatch} from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { unSetUserToken } from "../features/AuthSlice";
 import { getToken, removeToken } from "../services/LocalStorageService";
 import classes from "../styles/Profile.module.css";
@@ -7,6 +7,8 @@ import { useProfileQuery } from "../services/UserAuthApi";
 import { useEffect, useState } from "react";
 import { setUserToken } from "../features/AuthSlice";
 import { setUserInfo, unSetUserInfo } from "../features/UserSlice";
+import { storeToken } from "../services/LocalStorageService";
+import axios from "axios";
 export default function Profile(props){
     const [userData, setUserData] = useState({
         user_name : "",
@@ -45,9 +47,37 @@ export default function Profile(props){
         }
     },[data, isSuccess, dispatch])
 
-    // const userinfo = useSelector(state=>state.user)
-    // console.log(userinfo)
+    let [loading, setLoading] = useState(true)
 
+    const updateToken = async()=>{
+        const {refresh_token} = getToken();
+        await axios.post("http://127.0.0.1:8000/api/token/refresh/",
+            {refresh:refresh_token},
+            {
+                headers : {
+                    "Accept" : "application/json"
+                },
+            }
+            ).then(res=>{
+                storeToken(res.data);
+                let {access_token} = getToken()
+                dispatch(setUserToken({access_token:access_token}))
+            }).catch(err=>{
+                handleClick();
+            })
+    }
+
+
+    useEffect(()=>{
+        let fourmin = 1000*60*4;
+        let interval = setInterval(()=>{
+            if(access_token){
+                updateToken()
+            }
+        }, fourmin)
+        return ()=> clearInterval(interval)
+
+    }, [access_token, loading])
 
     return(
         <div className={classes.profile}>

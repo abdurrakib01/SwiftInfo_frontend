@@ -5,10 +5,12 @@ import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import NewBlogPage from "./components/pages/NewBlogPage";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { getToken } from "./services/LocalStorageService";
 
 function App() {
-  const {access_token} = useSelector(state =>state.auth)
+  // const {access_token} = useSelector(state =>state.auth)
+  const {access_token} = getToken();
   return (
     <Router>
     <div className="App">

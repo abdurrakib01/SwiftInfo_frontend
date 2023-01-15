@@ -1,5 +1,5 @@
 import classes from "../styles/NewBlog.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Image from "./Image";
 import { useDispatch } from "react-redux";
@@ -10,15 +10,29 @@ import axios from "axios";
 
 export default function NewBlog(){
     const [content, setContent] = useState({
+        id : "",
         title : "",
         info : "",
         image : null,
         con : false,
         imagePreview : null,
+        imageUpdate : false,
     })
     const [server_error, setServerError] = useState({});
+    const location = useLocation();
 
-
+    useEffect(()=>{
+        if(location.state != null){
+            setContent({
+                id : location.state.content.id,
+                title : location.state.content.title,
+                info : location.state.content.info,
+                image : location.state.content.image,
+                imagePreview : location.state.content.image,
+                con : true
+            })
+        }
+    }, [])
     const handleChange=(e)=>{
         var value = e.target.value;
         var name = e.target.name;
@@ -33,6 +47,7 @@ export default function NewBlog(){
             image : e.target.files[0],
             imagePreview : URL.createObjectURL(e.target.files[0]),
             con : true,
+            imageUpdate : true,
         })
     };
     const navigate = useNavigate()
@@ -42,12 +57,14 @@ export default function NewBlog(){
     const handleSubmit= async (e)=>{
         e.preventDefault()
         let data = new FormData()
+        if(content.imageUpdate){
         if(content.image){
             data.append("image", content.image, content.image.name)
         };
+        }
         data.append("title", content.title)
         data.append("info", content.info)
-
+        if(content.id === ""){
         await axios.post('http://127.0.0.1:8000/', data,{
             headers: {
                 'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
@@ -58,15 +75,21 @@ export default function NewBlog(){
         }).catch(err=>{
             setServerError(err.response.data)
         });
+        }
+        else{
+            await axios.put(`http://127.0.0.1:8000/${content.id}/`, data, {
+                headers: {
+                    'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+                    'authorization' : `Bearer ${access_token}`,
+                },
+            }).then(res=>{
+                navigate("/details", {state:{data:{id:content.id}}});
+            }).catch(err=>{
+                setServerError(err.response.data)
+            });
+            console.log(content.image)
+        }
 
-
-        // const res = await postBlog({data,access_token});
-        // if(res.error){
-        //     console.log(res.error.data)
-        // }
-        // if(res.data){
-        //     navigate('/')
-        // }
     }
     const dispatch = useDispatch()
     useEffect(()=>{

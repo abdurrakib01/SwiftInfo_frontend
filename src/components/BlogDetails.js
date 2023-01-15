@@ -61,14 +61,27 @@ export default function BlogDetails(props){
             Delete();
         }
     }
+
+    const Update=()=>{
+        navigate("/newblog", {state:{content}})
+    }
+
+    const handleUpdate=()=>{
+        if(window.confirm("Sure you want to update your Blog?")){
+            Update();
+        }
+    }
+
     return(
         <>
         <div className={classes.auth}>
             <Link to="/" className={classes.back} style={{paddingTop:"3px"}}>
             <i className="material-icons">arrow_back</i></Link>
             {(authorInfo.user_name === content.author)?
-                <button className={classes.back} onClick={handleClick}>
-                Delete</button>:""}
+                <div className={classes.function}>
+                    <button className={classes.back} onClick={handleClick}>Delete</button>
+                    <button className={classes.back} onClick={handleUpdate}>Update</button>
+                </div>:""}
        </div>
         <div className={classes.blog_container}>
             <img src={content.image} alt=""/>
