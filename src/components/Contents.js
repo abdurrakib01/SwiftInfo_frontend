@@ -42,7 +42,7 @@ export default function Contents(){
         dispatch(setUserToken({access_token:access_token}))
     },[access_token, dispatch])
     return(
-        <div>
+        <div className={classes.content_body}> 
             <div className={classes.title}>
                 <h2>“Blogging is a conversation,<br/> not a code.”</h2>
                 <div className={classes.search}>

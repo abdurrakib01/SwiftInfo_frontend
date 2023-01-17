@@ -1,3 +1,6 @@
+.content_body{
+    width: 100%;
+}
 .content {
     width: 90%;
     display: grid;
