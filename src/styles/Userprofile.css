@@ -1,0 +1,28 @@
+.user{
+    width: 90%;
+}
+
+.img{
+    margin-top: 30px;
+    width: 300px;
+    border: 3px solid;
+    height: 300px;
+    border-radius: 200px;
+}
+
+.blog{
+    width: 100%;
+}
+
+.blog h2{
+    margin-left: 5%;
+}
+
+.userblog {
+    width: 90%; 
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    padding: 10px;
+    margin: 2em auto;
+    gap: 40px 30px;
+}

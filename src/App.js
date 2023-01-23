@@ -7,6 +7,7 @@ import RegisterPage from "./components/pages/RegisterPage";
 import NewBlogPage from "./components/pages/NewBlogPage";
 // import { useSelector } from "react-redux";
 import { getToken } from "./services/LocalStorageService";
+import ProfilePage from "./components/pages/ProfilePage";
 
 function App() {
   // const {access_token} = useSelector(state =>state.auth)
@@ -20,6 +21,7 @@ function App() {
       <Route exact path="/register" element={<RegisterPage/>}/>
       <Route exact path="/newblog" element={access_token ?<NewBlogPage/>:<Navigate to="/login"/>}/>
       <Route exact path="/details" element={<DetailsPage/>}/>
+      <Route exact path="/profile" element={<ProfilePage/>}/>
     </Routes>
     </div>
     </Router>

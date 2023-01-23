@@ -1,0 +1,111 @@
+.profile{
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.username{
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+    color: white;
+}
+
+.logout{
+    padding: 0;
+    margin: 0;
+    margin-left: 20px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout:hover{
+    color: rgba(252, 104, 85);
+}
+
+
+.dropdown_menu{
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    width: 200px;
+    background-color: rgb(201, 200, 200);
+    border-radius: 5px;
+}
+
+.dropdown_menu::before{
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-color: rgb(201, 200, 200);
+    position: absolute;
+    top: -5px;
+    right: 40px;
+    transform: rotate(45deg);
+}
+
+.dropdown_menu.inactive{
+    opacity: 0;
+    visibility:hidden;
+    transform: translateY(-20px);
+    transition: 0.4s ease;
+}
+.dropdown_menu.active{
+    opacity: 1;
+    visibility: visible;
+    transition: 0.4s ease;
+    transform: translateY(0px);
+}
+
+.dropdown_info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropdown_info h3{
+    margin: 0;
+    margin-top: 20px;
+}
+.dropdown_info hr{
+    width: 90%;
+}
+.dropdown_info h4{
+    margin: 0;
+}
+
+.username:hover{
+    color: rgb(252, 104, 85);;
+}
+
+
+.dropdown{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.dropdown:hover{
+    color: rgb(245, 57, 32);;
+}
+.dropdown img{
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border-radius: 10px;
+}
+.dropdown p{
+    margin: 0;
+    margin-left: 10px;
+}
+
+.a{
+    color: black;
+}

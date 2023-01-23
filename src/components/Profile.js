@@ -1,19 +1,23 @@
 import { useDispatch} from "react-redux";
-import { json, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { unSetUserToken } from "../features/AuthSlice";
 import { getToken, removeToken } from "../services/LocalStorageService";
-import classes from "../styles/Profile.module.css";
+import "../styles/Profile.css";
 import { useProfileQuery } from "../services/UserAuthApi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { setUserToken } from "../features/AuthSlice";
 import { setUserInfo, unSetUserInfo } from "../features/UserSlice";
 import { storeToken } from "../services/LocalStorageService";
 import axios from "axios";
+
+import profile from "../assets/images/profile.jpeg";
+import logout from "../assets/images/logout.png";
 export default function Profile(props){
     const [userData, setUserData] = useState({
         user_name : "",
         email : ""
     })
+    const {click, setClick} = useState(true);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleClick=()=>{
@@ -59,14 +63,17 @@ export default function Profile(props){
                 },
             }
             ).then(res=>{
+                console.log(res.data)
                 storeToken(res.data);
+                setClick(!click);
                 let {access_token} = getToken()
                 dispatch(setUserToken({access_token:access_token}))
+
             }).catch(err=>{
                 handleClick();
             })
     }
-
+    
 
     useEffect(()=>{
         let fourmin = 1000*60*4;
@@ -77,12 +84,42 @@ export default function Profile(props){
         }, fourmin)
         return ()=> clearInterval(interval)
 
-    }, [access_token, loading])
+    },[loading])
+
+    const [open, setOpen] = useState(false);
+    let menuRef = useRef();
+
+    useEffect(()=>{
+        let handler=(e)=>{
+            if(!menuRef.current.contains(e.target)){
+                setOpen(false);
+            }
+        }
+        document.addEventListener('mousedown', handler);
+    })
 
     return(
-        <div className={classes.profile}>
-            <p className={classes.username}>{userData.user_name}</p>
-            <p className={classes.logout} onClick={handleClick}>Logout</p>
+        <div ref={menuRef}>
+        <div className="profile" onClick={()=>{setOpen(!open)}}>
+            <p className="username">{userData.user_name}</p>
+        </div>
+        <div className={`dropdown_menu ${open?"active":"inactive"}`}>
+            <div className="dropdown_info">
+                <h3>{userData.user_name}</h3>
+                <h4>{userData.email}</h4>
+                <hr/>
+            </div>
+            <Link to="/profile" className="a">
+            <div className="dropdown">
+                <img src={profile}/>
+                <p>Your Profile</p>
+            </div>
+            </Link>
+            <div className="dropdown">
+                <img src={logout}/>
+                <p onClick={handleClick}>Logout</p>
+            </div>
+        </div>
         </div>
     );
 }
