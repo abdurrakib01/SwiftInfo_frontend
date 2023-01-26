@@ -47,7 +47,7 @@ function App() {
   
   const [token, setToken] = useState(true);
   return (
-    <access.Provider value={{token, setToken}}>
+    <access.Provider value={{token, setToken, updateToken}}>
     <Router>
     <div className="App">
     <Routes>

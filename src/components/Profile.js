@@ -3,11 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { unSetUserToken } from "../features/AuthSlice";
 import { getToken, removeToken } from "../services/LocalStorageService";
 import "../styles/Profile.css";
-import { useProfileQuery } from "../services/UserAuthApi";
 import { useContext, useEffect, useRef, useState } from "react";
 import { setUserToken } from "../features/AuthSlice";
 import { setUserInfo, unSetUserInfo } from "../features/UserSlice";
-
+import axios from "axios";
 import profile from "../assets/images/profile.jpeg";
 import logout from "../assets/images/logout.png";
 
@@ -15,7 +14,7 @@ import { access } from "../services/Context";
 
 export default function Profile(props){
 
-    const {token, setToken} = useContext(access);
+    const {token, setToken, updateToken} = useContext(access);
     const [userData, setUserData] = useState({
         user_name : "",
         email : ""
@@ -30,29 +29,40 @@ export default function Profile(props){
         setToken(!token)
     }
     const {access_token} = getToken()
-    const {data, isSuccess} = useProfileQuery(access_token)
-
-    useEffect(()=>{
-        if(data && isSuccess){
+    const profileFetch =async()=>{
+        await axios.get("http://127.0.0.1:8000/api/user/profile/",{
+                headers: {
+                    'Accept': 'application/json',
+                    'authorization' : `Bearer ${access_token}`,
+                }
+            }
+        )
+        .then(res=>{
             setUserData({
-                user_name : data.user_name,
-                email : data.email
+                user_name: res.data.user_name,
+                email: res.data.email
             })
-        }
-    },[data, isSuccess])
+            dispatch(setUserInfo({
+                user_name : res.data.user_name,
+                email : res.data.email
+            }))
+        })
+        .catch(()=>{
+            updateToken();
+            setToken(!token)
+        })
+    }
+    // eslint-disable-next-line no-unused-vars
+    const [loading, setLoading] = useState(true);
+    useEffect(()=>{
+        profileFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[loading])
 
     useEffect(()=>{
         dispatch(setUserToken({access_token:access_token}))
     },[access_token, dispatch])
     
-    useEffect(()=>{
-        if(data && isSuccess){
-            dispatch(setUserInfo({
-                user_name : data.user_name,
-                email : data.email
-            }))
-        }
-    },[data, isSuccess, dispatch])
 
     const [open, setOpen] = useState(false);
     let menuRef = useRef();
