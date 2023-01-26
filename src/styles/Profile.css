@@ -1,7 +1,7 @@
 .profile{
     display: flex;
     align-items: center;
-    margin-left: 25px;
+    margin-left: 15px;
     padding: 2px;
     cursor: pointer;
 }
@@ -32,7 +32,7 @@
     top: 40px;
     right: 20px;
     width: 200px;
-    background-color: rgb(201, 200, 200);
+    background-color: rgb(82, 82, 82);
     border-radius: 5px;
 }
 
@@ -40,7 +40,7 @@
     content: '';
     width: 20px;
     height: 20px;
-    background-color: rgb(201, 200, 200);
+    background-color: rgb(82, 82, 82);
     position: absolute;
     top: -5px;
     right: 40px;
@@ -70,16 +70,14 @@
 .dropdown_info h3{
     margin: 0;
     margin-top: 20px;
+    color:white;
 }
 .dropdown_info hr{
     width: 90%;
 }
 .dropdown_info h4{
     margin: 0;
-}
-
-.username:hover{
-    color: rgb(252, 104, 85);;
+    color: white;
 }
 
 
@@ -92,9 +90,6 @@
     cursor: pointer;
 }
 
-.dropdown:hover{
-    color: rgb(245, 57, 32);;
-}
 .dropdown img{
     width: 20px;
     height: 20px;
@@ -104,8 +99,11 @@
 .dropdown p{
     margin: 0;
     margin-left: 10px;
+    color: white;
 }
-
+.dropdown p:hover{
+    color: rgb(245, 57, 32);;
+}
 .a{
-    color: black;
+    color: rgb(255, 255, 255);
 }

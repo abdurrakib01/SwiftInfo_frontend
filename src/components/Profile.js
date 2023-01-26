@@ -1,23 +1,25 @@
 import { useDispatch} from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { unSetUserToken } from "../features/AuthSlice";
 import { getToken, removeToken } from "../services/LocalStorageService";
 import "../styles/Profile.css";
 import { useProfileQuery } from "../services/UserAuthApi";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { setUserToken } from "../features/AuthSlice";
 import { setUserInfo, unSetUserInfo } from "../features/UserSlice";
-import { storeToken } from "../services/LocalStorageService";
-import axios from "axios";
 
 import profile from "../assets/images/profile.jpeg";
 import logout from "../assets/images/logout.png";
+
+import { access } from "../services/Context";
+
 export default function Profile(props){
+
+    const {token, setToken} = useContext(access);
     const [userData, setUserData] = useState({
         user_name : "",
         email : ""
     })
-    const {click, setClick} = useState(true);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleClick=()=>{
@@ -25,6 +27,7 @@ export default function Profile(props){
         dispatch(unSetUserInfo({user_name:null, email:null}))
         removeToken()
         navigate('/login')
+        setToken(!token)
     }
     const {access_token} = getToken()
     const {data, isSuccess} = useProfileQuery(access_token)
@@ -51,41 +54,6 @@ export default function Profile(props){
         }
     },[data, isSuccess, dispatch])
 
-    let [loading, setLoading] = useState(true)
-
-    const updateToken = async()=>{
-        const {refresh_token} = getToken();
-        await axios.post("http://127.0.0.1:8000/api/token/refresh/",
-            {refresh:refresh_token},
-            {
-                headers : {
-                    "Accept" : "application/json"
-                },
-            }
-            ).then(res=>{
-                console.log(res.data)
-                storeToken(res.data);
-                setClick(!click);
-                let {access_token} = getToken()
-                dispatch(setUserToken({access_token:access_token}))
-
-            }).catch(err=>{
-                handleClick();
-            })
-    }
-    
-
-    useEffect(()=>{
-        let fourmin = 1000*60*4;
-        let interval = setInterval(()=>{
-            if(access_token){
-                updateToken()
-            }
-        }, fourmin)
-        return ()=> clearInterval(interval)
-
-    },[loading])
-
     const [open, setOpen] = useState(false);
     let menuRef = useRef();
 
@@ -111,12 +79,12 @@ export default function Profile(props){
             </div>
             <Link to="/profile" className="a">
             <div className="dropdown">
-                <img src={profile}/>
+                <img src={profile} alt=""/>
                 <p>Your Profile</p>
             </div>
             </Link>
             <div className="dropdown">
-                <img src={logout}/>
+                <img src={logout} alt=""/>
                 <p onClick={handleClick}>Logout</p>
             </div>
         </div>

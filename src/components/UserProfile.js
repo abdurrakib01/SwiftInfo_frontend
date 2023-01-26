@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import profile from "../assets/images/profile.jpeg"
+import profile from "../assets/images/pho.jpg"
 import { getToken } from "../services/LocalStorageService";
 import { useProfileQuery } from "../services/UserAuthApi";
 import "../styles/Userprofile.css";
@@ -11,7 +11,7 @@ export default function UserProfile(){
         email : '',
     })
     const [contents, setContents] = useState([])
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     let {access_token} = getToken();
     let {data, isSuccess} = useProfileQuery(access_token)
@@ -21,23 +21,23 @@ export default function UserProfile(){
                 user_name : data.user_name,
                 email : data.email
             })
+            setLoading(true);
         }
     }, [data, isSuccess])
 
     const fetching=()=>{
         axios.post("http://127.0.0.1:8000/profile/", {email:user.email})
         .then(res=>{
-            console.log(res.data);
             setContents(res.data);
         })
         .catch(err=>{
             console.log(err);
         })
     }
-
     useEffect(()=>{
         fetching();
-    },[loading])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading])
     return(
         <>
         <div className="user">
@@ -48,7 +48,7 @@ export default function UserProfile(){
             <p>I am abdur rakib. I want to be a good software ingineer</p>
         </div>
         <div className="blog">
-            <h2>Your Blog:</h2>
+            <h2>Your Blogs:</h2>
         <div className="userblog">
             {contents.map((value, index)=>(
                 <Content key={index} blog={value}/>

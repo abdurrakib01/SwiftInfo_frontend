@@ -7,9 +7,9 @@
     cursor: pointer;
 }
 
-.dropdown:hover{
-    color: rgb(245, 57, 32);;
-}
+/* .dropdown:hover{
+    color: rgb(245, 57, 32);
+} */
 .dropdown img{
     width: 20px;
     height: 20px;
@@ -19,4 +19,8 @@
 .dropdown p{
     margin: 0;
     margin-left: 10px;
+}
+
+.p{
+    color: white;
 }

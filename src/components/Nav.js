@@ -11,6 +11,7 @@ export default function Nav(){
                 <Link to="/"><h2><span>S</span>wift<span>I</span>nfo</h2></Link>
             </div>
             <div className={classes.menu}>
+                <Link to="/">Home</Link>
                 <Link to="/newblog">New Blog</Link>
                 {access_token? <Profile/> : <LogReg/>}
             </div>

@@ -3,7 +3,7 @@ export default function Dropdown(props){
     return(
         <div className="dropdown">
             <img src={props.img}/>
-            <p>{props.text}</p>
+            <p className="p">{props.text}</p>
         </div>
     )
 }

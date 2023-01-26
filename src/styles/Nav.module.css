@@ -29,3 +29,8 @@ nav a:hover{
     display: flex;
     margin-right: 65px;
 }
+
+.menu a{
+    margin-left: 25px;
+    margin-top: 2px;
+}

@@ -4,12 +4,23 @@
 
 .img{
     margin-top: 30px;
-    width: 300px;
-    border: 3px solid;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     border-radius: 200px;
 }
-
+.user p{
+    margin: 0;
+    padding: 0;
+}
+.user h4{
+    margin: 0;
+    margin-top: 10px;
+    color: rgb(117, 117, 117);
+}
+.user h1{
+    margin: 0;
+    margin-top: 5px;
+}
 .blog{
     width: 100%;
 }
