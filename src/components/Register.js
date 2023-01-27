@@ -45,7 +45,7 @@ export default function Register(){
         if(res.data){
             storeToken(res.data.token)
             setToken(!token)
-            navigate('/')
+            navigate('/profile')
         }
     }
 

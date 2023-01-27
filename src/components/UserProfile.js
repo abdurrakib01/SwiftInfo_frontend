@@ -1,56 +1,54 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import profile from "../assets/images/pho.jpg"
+import profile from "../assets/images/profile.jpeg";
 import { getToken } from "../services/LocalStorageService";
 import { useProfileQuery } from "../services/UserAuthApi";
 import "../styles/Userprofile.css";
 import Content from "./Content";
 import Avatar from "react-avatar-edit";
-import AvatarEditor from "react-avatar-editor";
 
 export default function UserProfile(){
+    const [edit, setEdit] = useState(false)
+    const [contents, setContents] = useState([])
+    const [loading, setLoading] = useState(false);
+    let {access_token} = getToken();
+    let {data, isSuccess} = useProfileQuery(access_token)
     const [user, setUser] = useState({
+        id:'',
         user_name : '',
         email : '',
     })
     const [userInfo, setUserInfo] = useState({
-        user_id : '1',
+        user_id : '',
         profile_image : null,
         bio : ""
     })
-    const [edit, setEdit] = useState(false)
-
-    const [contents, setContents] = useState([])
-    const [loading, setLoading] = useState(false);
-
-    let {access_token} = getToken();
-    let {data, isSuccess} = useProfileQuery(access_token)
+    const [infoData, setInfoData] =useState(false)
     useEffect(()=>{
         if(data && isSuccess){
             setUser({
+                id:data.id,
                 user_name : data.user_name,
                 email : data.email
             })
             setLoading(true);
         }
     }, [data, isSuccess])
-
-    const fetching=()=>{
-        axios.post("http://127.0.0.1:8000/profile/", {email:user.email})
-        .then(res=>{
-            setContents(res.data);
-        })
-        .catch(err=>{
-            console.log(err);
-        })
-
-        axios.get(`http://127.0.0.1:8000/api/user/userinfo/${userInfo.user_id}/`)
+    const profileInfoFetch=()=>{
+        axios.get(`http://127.0.0.1:8000/api/user/userinfo/${user.id}/`)
         .then(res=>{
             setUserInfo({
                 user_id : res.data.user_id,
                 profile_image : res.data.profile_image,
                 bio : res.data.bio
             })
+            setInfoData(true)
+        })
+    }
+    const fetching=()=>{
+        axios.post("http://127.0.0.1:8000/profile/", {email:user.email})
+        .then(res=>{
+            setContents(res.data);
         })
         .catch(err=>{
             console.log(err);
@@ -62,6 +60,7 @@ export default function UserProfile(){
     }
 
     useEffect(()=>{
+        profileInfoFetch();
         fetching();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading])
@@ -76,8 +75,15 @@ export default function UserProfile(){
         visibility:'hidden',
         imgStyle : {visibility:'hidden'}
     })
+    useEffect(()=>{
+        urltoFile(profile, 'profile.jpg','image/png, image/jpg, image/jpeg')
+        .then(function(file){
+            setSrc(file)
+        })
+    },[])
 
     const bioClick=async()=>{
+        if(infoData){
         await axios.patch(`http://127.0.0.1:8000/api/user/userinfo/${userInfo.user_id}/`,
         {bio : userInfo.bio},
         {headers : {
@@ -93,14 +99,25 @@ export default function UserProfile(){
         })
         .catch(err=>{
             console.log(err);
+        })}
+        else{
+            await axios.post('http://127.0.0.1:8000/api/user/userinfo/',
+        {profile_image : src, bio: userInfo.bio},
+        {headers: {
+            'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+            'authorization' : `Bearer ${access_token}`,
+        }})
+        .then(res=>{
+            profileInfoFetch();
+            setEdit(!edit);
         })
+        .catch(err=>{
+            console.log(err);
+        })
+        }
     }
 
     const [src, setSrc] = useState(null)
-    const [preview, setPreview] = useState(null)
-    const onClose =()=>{
-        setPreview(null);
-    }
     const onCrop=view=>{
         urltoFile(view, 'profile.jpg','image/png, image/jpg, image/jpeg')
         .then(function(file){
@@ -116,8 +133,7 @@ export default function UserProfile(){
     }
 
     const imageClick=async()=>{
-        let data = new FormData()
-        data.append("prfile_image", src, src.name)
+        if(infoData){
         await axios.patch(`http://127.0.0.1:8000/api/user/userinfo/${userInfo.user_id}/`,
         {profile_image : src},
         {headers: {
@@ -125,17 +141,35 @@ export default function UserProfile(){
             'authorization' : `Bearer ${access_token}`,
         }})
         .then(res=>{
-            fetching();
+            profileInfoFetch();
             setImageEdit(!imgEdit);
         })
         .catch(err=>{
             console.log(err);
         })
+        }
+        else{
+            await axios.post('http://127.0.0.1:8000/api/user/userinfo/',
+        {profile_image : src, bio:''},
+        {headers: {
+            'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+            'authorization' : `Bearer ${access_token}`,
+        }})
+        .then(res=>{
+            profileInfoFetch();
+            setImageEdit(!imgEdit);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+        }
+    
     }
     const [imgEdit, setImageEdit] = useState(false);
     const imgEditClick=()=>{
         setImageEdit(!imgEdit);
     }
+
     return(
         <>
         <div className="user">
@@ -152,7 +186,9 @@ export default function UserProfile(){
                         imgStyle:{visibility:'hidden'}
                     })
                 }}>
-            <img className="img"  src={userInfo.profile_image} alt=""/>
+            {infoData?
+            <img className="img"  src={userInfo.profile_image} alt=""/>:
+            <img className="img"  src={profile} alt=""/>}
             <i className="material-icons" style={style.imgStyle}
                 onClick={imgEditClick}>edit</i>
             </div>
@@ -161,7 +197,6 @@ export default function UserProfile(){
                 <Avatar
                     width={300}
                     height={300}
-                    onClose={onClose}
                     onCrop={onCrop}
                 />
                 <button className="btn" onClick={imageClick}>Save</button>
@@ -198,11 +233,12 @@ export default function UserProfile(){
         </div>
         <div className="blog">
             <h2>Your Blogs:</h2>
+        {contents.length === 0?<h3 className="msg">You didn't create any blog yet!</h3>:
         <div className="userblog">
             {contents.map((value, index)=>(
                 <Content key={index} blog={value}/>
             ))}
-        </div>
+        </div>}
         </div>
         </>
     )

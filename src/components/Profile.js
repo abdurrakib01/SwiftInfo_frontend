@@ -28,6 +28,7 @@ export default function Profile(props){
         navigate('/login')
         setToken(!token)
     }
+    const [bug, setBug] = useState(true);
     const {access_token} = getToken()
     const profileFetch =async()=>{
         await axios.get("http://127.0.0.1:8000/api/user/profile/",{
@@ -50,6 +51,7 @@ export default function Profile(props){
         .catch(()=>{
             updateToken();
             setToken(!token)
+            setBug(!bug)
         })
     }
     // eslint-disable-next-line no-unused-vars

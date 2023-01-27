@@ -44,6 +44,7 @@
     width: 50px;
     margin-top: 5px;
     height: 20px;
+    cursor: pointer;
 }
 .bio-edit{
     max-width: 300px;
@@ -91,7 +92,7 @@
 }
 
 .pro-img{
-    background-color: rgb(172, 172, 172);
+    background-color: rgb(199, 199, 199);
     position: absolute;
     top: 100px;
     border-radius: 10px;
@@ -102,10 +103,16 @@
     align-items: center;
     flex-direction: column;
     padding-top: 20px;
+    box-shadow: 10px 10px 20px rgb(160, 160, 160);
 }
 
 
 .avatar{
     object-fit: cover;
     background-size: cover;
+}
+
+.msg{
+    margin-left: 5%;
+    color: red;
 }

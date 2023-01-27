@@ -128,3 +128,8 @@
 .search_field{
     width: 30%;
 }
+
+.msg{
+    margin-left: 5%;
+    color: red;
+}
