@@ -56,6 +56,7 @@ export default function NewBlog(){
 
     const handleSubmit= async (e)=>{
         e.preventDefault()
+        console.log(content.image);
         let data = new FormData()
         if(content.imageUpdate){
         if(content.image){

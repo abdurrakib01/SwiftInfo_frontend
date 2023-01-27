@@ -102,21 +102,40 @@ export default function UserProfile(){
         setPreview(null);
     }
     const onCrop=view=>{
-        setPreview(view)
+        urltoFile(view, 'profile.jpg','image/png, image/jpg, image/jpeg')
+        .then(function(file){
+            setSrc(file)
+        })
+    }
+    //return a promise that resolves with a File instance
+    function urltoFile(url, filename, mimeType){
+         return (fetch(url)
+             .then(function(res){return res.arrayBuffer();})
+             .then(function(buf){return new File([buf], filename,{type:mimeType});})
+         );
     }
 
-    // //return a promise that resolves with a File instance
-    // function urltoFile(url, filename, mimeType){
-    //     return (fetch(url)
-    //         .then(function(res){return res.arrayBuffer();})
-    //         .then(function(buf){return new File([buf], filename,{type:mimeType});})
-    //     );
-    // }
-    
-    // //Usage example:
-    // urltoFile(preview, 'pro.jpg','image/png')
-    // .then(function(file){ console.log(file);})
-
+    const imageClick=async()=>{
+        let data = new FormData()
+        data.append("prfile_image", src, src.name)
+        await axios.patch(`http://127.0.0.1:8000/api/user/userinfo/${userInfo.user_id}/`,
+        {profile_image : src},
+        {headers: {
+            'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+            'authorization' : `Bearer ${access_token}`,
+        }})
+        .then(res=>{
+            fetching();
+            setImageEdit(!imgEdit);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
+    const [imgEdit, setImageEdit] = useState(false);
+    const imgEditClick=()=>{
+        setImageEdit(!imgEdit);
+    }
     return(
         <>
         <div className="user">
@@ -135,20 +154,19 @@ export default function UserProfile(){
                 }}>
             <img className="img"  src={userInfo.profile_image} alt=""/>
             <i className="material-icons" style={style.imgStyle}
-                onClick={editClick}>edit</i>
+                onClick={imgEditClick}>edit</i>
             </div>
+            {imgEdit ?
             <div className="pro-img">
                 <Avatar
                     width={300}
                     height={300}
                     onClose={onClose}
                     onCrop={onCrop}
-                    scale={1}
-                    rotate={0}
                 />
-                <button className="btn">Save</button>
+                <button className="btn" onClick={imageClick}>Save</button>
             </div>
-            <img src={preview}/>
+            :''}
             <h1>{user.user_name}</h1>
             <p>Email: {user.email}</p>
             <div className="bio-btn"
