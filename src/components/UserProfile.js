@@ -5,6 +5,8 @@ import { getToken } from "../services/LocalStorageService";
 import { useProfileQuery } from "../services/UserAuthApi";
 import "../styles/Userprofile.css";
 import Content from "./Content";
+import Avatar from "react-avatar-edit";
+import AvatarEditor from "react-avatar-editor";
 
 export default function UserProfile(){
     const [user, setUser] = useState({
@@ -93,6 +95,28 @@ export default function UserProfile(){
             console.log(err);
         })
     }
+
+    const [src, setSrc] = useState(null)
+    const [preview, setPreview] = useState(null)
+    const onClose =()=>{
+        setPreview(null);
+    }
+    const onCrop=view=>{
+        setPreview(view)
+    }
+
+    // //return a promise that resolves with a File instance
+    // function urltoFile(url, filename, mimeType){
+    //     return (fetch(url)
+    //         .then(function(res){return res.arrayBuffer();})
+    //         .then(function(buf){return new File([buf], filename,{type:mimeType});})
+    //     );
+    // }
+    
+    // //Usage example:
+    // urltoFile(preview, 'pro.jpg','image/png')
+    // .then(function(file){ console.log(file);})
+
     return(
         <>
         <div className="user">
@@ -113,6 +137,18 @@ export default function UserProfile(){
             <i className="material-icons" style={style.imgStyle}
                 onClick={editClick}>edit</i>
             </div>
+            <div className="pro-img">
+                <Avatar
+                    width={300}
+                    height={300}
+                    onClose={onClose}
+                    onCrop={onCrop}
+                    scale={1}
+                    rotate={0}
+                />
+                <button className="btn">Save</button>
+            </div>
+            <img src={preview}/>
             <h1>{user.user_name}</h1>
             <p>Email: {user.email}</p>
             <div className="bio-btn"

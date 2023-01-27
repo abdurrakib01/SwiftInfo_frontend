@@ -11,6 +11,8 @@
     "draft-js": "^0.11.7",
     "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-avatar-edit": "^1.2.0",
+    "react-avatar-editor": "^13.0.0",
     "react-axios": "^2.0.6",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
