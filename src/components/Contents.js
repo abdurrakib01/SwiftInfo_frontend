@@ -57,11 +57,13 @@ export default function Contents(){
                 </form>
                 </div> 
             </div>
+            {contents.length === 0?<h3 className={classes.msg}>Your search doesn't match any blog!</h3>:
             <div className={classes.content}>
                 {contents.map((value, index)=>(
                         <Content key={index} blog={value}/>
                     ))}
             </div>
+            }
         </div>
     );
 }

@@ -1,12 +1,16 @@
 import classes from "../styles/Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLoginUserMutation } from "../services/UserAuthApi";
 import { getToken, storeToken } from "../services/LocalStorageService";
 import { useDispatch } from "react-redux";
 import { setUserToken } from "../features/AuthSlice";
 
+import { access } from "../services/Context";
+
 export default function Login(){
+
+    const {token, setToken} = useContext(access);
     const [user, setUser] = useState({
         email : "",
         password : "", 
@@ -37,6 +41,7 @@ export default function Login(){
             storeToken(res.data.token)
             let {access_token} = getToken()
             dispatch(setUserToken({access_token:access_token}))
+            setToken(!token);
             navigate('/');
         }
     }

@@ -1,15 +1,20 @@
 import { useDispatch} from "react-redux";
-import { json, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { unSetUserToken } from "../features/AuthSlice";
 import { getToken, removeToken } from "../services/LocalStorageService";
-import classes from "../styles/Profile.module.css";
-import { useProfileQuery } from "../services/UserAuthApi";
-import { useEffect, useState } from "react";
+import "../styles/Profile.css";
+import { useContext, useEffect, useRef, useState } from "react";
 import { setUserToken } from "../features/AuthSlice";
 import { setUserInfo, unSetUserInfo } from "../features/UserSlice";
-import { storeToken } from "../services/LocalStorageService";
 import axios from "axios";
+import profile from "../assets/images/profile.jpeg";
+import logout from "../assets/images/logout.png";
+
+import { access } from "../services/Context";
+
 export default function Profile(props){
+
+    const {token, setToken, updateToken} = useContext(access);
     const [userData, setUserData] = useState({
         user_name : "",
         email : ""
@@ -21,68 +26,80 @@ export default function Profile(props){
         dispatch(unSetUserInfo({user_name:null, email:null}))
         removeToken()
         navigate('/login')
+        setToken(!token)
     }
+    const [bug, setBug] = useState(true);
     const {access_token} = getToken()
-    const {data, isSuccess} = useProfileQuery(access_token)
-
-    useEffect(()=>{
-        if(data && isSuccess){
+    const profileFetch =async()=>{
+        await axios.get("http://127.0.0.1:8000/api/user/profile/",{
+                headers: {
+                    'Accept': 'application/json',
+                    'authorization' : `Bearer ${access_token}`,
+                }
+            }
+        )
+        .then(res=>{
             setUserData({
-                user_name : data.user_name,
-                email : data.email
+                user_name: res.data.user_name,
+                email: res.data.email
             })
-        }
-    },[data, isSuccess])
+            dispatch(setUserInfo({
+                user_name : res.data.user_name,
+                email : res.data.email
+            }))
+        })
+        .catch(()=>{
+            updateToken();
+            setToken(!token)
+            setBug(!bug)
+        })
+    }
+    // eslint-disable-next-line no-unused-vars
+    const [loading, setLoading] = useState(true);
+    useEffect(()=>{
+        profileFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[loading])
 
     useEffect(()=>{
         dispatch(setUserToken({access_token:access_token}))
     },[access_token, dispatch])
     
+
+    const [open, setOpen] = useState(false);
+    let menuRef = useRef();
+
     useEffect(()=>{
-        if(data && isSuccess){
-            dispatch(setUserInfo({
-                user_name : data.user_name,
-                email : data.email
-            }))
+        let handler=(e)=>{
+            if(!menuRef.current.contains(e.target)){
+                setOpen(false);
+            }
         }
-    },[data, isSuccess, dispatch])
-
-    let [loading, setLoading] = useState(true)
-
-    const updateToken = async()=>{
-        const {refresh_token} = getToken();
-        await axios.post("http://127.0.0.1:8000/api/token/refresh/",
-            {refresh:refresh_token},
-            {
-                headers : {
-                    "Accept" : "application/json"
-                },
-            }
-            ).then(res=>{
-                storeToken(res.data);
-                let {access_token} = getToken()
-                dispatch(setUserToken({access_token:access_token}))
-            }).catch(err=>{
-                handleClick();
-            })
-    }
-
-
-    useEffect(()=>{
-        let fourmin = 1000*60*4;
-        let interval = setInterval(()=>{
-            if(access_token){
-                updateToken()
-            }
-        }, fourmin)
-        return ()=> clearInterval(interval)
-
-    }, [access_token, loading])
+        document.addEventListener('mousedown', handler);
+    })
 
     return(
-        <div className={classes.profile}>
-            <p className={classes.username}>{userData.user_name}</p>
-            <p className={classes.logout} onClick={handleClick}>Logout</p>
+        <div ref={menuRef}>
+        <div className="profile" onClick={()=>{setOpen(!open)}}>
+            <p className="username">{userData.user_name}</p>
+        </div>
+        <div className={`dropdown_menu ${open?"active":"inactive"}`}>
+            <div className="dropdown_info">
+                <h3>{userData.user_name}</h3>
+                <h4>{userData.email}</h4>
+                <hr/>
+            </div>
+            <Link to="/profile" className="a">
+            <div className="dropdown">
+                <img src={profile} alt=""/>
+                <p>Your Profile</p>
+            </div>
+            </Link>
+            <div className="dropdown">
+                <img src={logout} alt=""/>
+                <p onClick={handleClick}>Logout</p>
+            </div>
+        </div>
         </div>
     );
 }

@@ -5,8 +5,6 @@ import axios from "axios";
 import { setUserToken } from "../features/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../services/LocalStorageService";
-// import { confirmAlert } from 'react-confirm-alert';
-// import 'react-confirm-alert/src/react-confirm-alert.css';
 const api = axios.create({
     baseURL : "http://127.0.0.1:8000/"
 })
@@ -33,16 +31,11 @@ export default function BlogDetails(props){
     useEffect(()=>{
         dispatch(setUserToken({access_token:access_token}))
     },[access_token, dispatch])
-
     const date = content.time;
     var moment = require('moment');
-
     const authorInfo = useSelector(state=>state.user)
     const formattedDate = moment(date).format('MMMM Do YYYY, h:mm:ss a');
-
-
     const navigate = useNavigate();
-
     const Delete=()=>{
         api.delete(`/${props.id}`, {
             headers: {

@@ -1,9 +1,14 @@
 import classes from "../styles/Login.module.css"
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRegisterUserMutation } from "../services/UserAuthApi";
 import { storeToken } from "../services/LocalStorageService";
+
+import { access } from "../services/Context";
+
 export default function Register(){
+
+    const {token, setToken} = useContext(access);
     const [user, setUser] = useState({
         user_name : "",
         email : "",
@@ -39,7 +44,8 @@ export default function Register(){
         }
         if(res.data){
             storeToken(res.data.token)
-            navigate('/')
+            setToken(!token)
+            navigate('/profile')
         }
     }
 
